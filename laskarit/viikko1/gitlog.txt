@@ -1,0 +1,80 @@
+commit b451a2d09d77161dcf5545de3d83eb7504f94b90
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 11:10:40 2025 +0200
+
+    Lisää muutoksia
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit d22c2b4a2449c39532324c4651e946c59ced9bec
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 11:07:54 2025 +0200
+
+    tiedostoja
+
+ kolmas.txt       | 1 +
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 4 files changed, 1 insertion(+)
+
+commit 6f97d4d0973e7528f0156f6b44558db882a19084
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 11:03:39 2025 +0200
+
+    Muutoksia
+
+ eka.txt      |  2 +-
+ kolmas.txt   |  1 +
+ tiedosto.txt | 51 ---------------------------------------------------
+ 3 files changed, 2 insertions(+), 52 deletions(-)
+
+commit 755e3c6572f88f9ce834fffa43fc40b00a172703
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 11:02:01 2025 +0200
+
+    Nimetty uudelleen tiedosto.txt > eka.txt ja poistettu toinen.txt
+
+ eka.txt    | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ toinen.txt |  1 -
+ 2 files changed, 51 insertions(+), 1 deletion(-)
+
+commit 7e087799eeac384c6aff41180f7219f101c26792
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 11:00:47 2025 +0200
+
+    Paljon tekstiä
+
+ tiedosto.txt | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+commit 89edf525814cd2f26494262dd7902780083c83b6
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 10:59:45 2025 +0200
+
+    muutoksia
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 674ad3bf9978bc0e20f9e1b5bdeab8509f91181e
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 10:58:40 2025 +0200
+
+    kolmas.txt
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 6fa89f10d2e75875d908db197c603865073ba0a6
+Author: Tatu Laras <tatu.laras@gmail.com>
+Date:   Mon Mar 10 10:57:50 2025 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
