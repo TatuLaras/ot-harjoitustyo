@@ -1,5 +1,6 @@
 ```mermaid
 sequenceDiagram
+    create participant main
     create participant rautatietori
     main ->>rautatietori: Lataajalaite()
     create participant ratikka6
