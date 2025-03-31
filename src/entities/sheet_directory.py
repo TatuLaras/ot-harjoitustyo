@@ -1,5 +1,5 @@
 from sqlite3 import Row
-from entities.BaseEntity import BaseEntity
+from entities.base_entity import BaseEntity
 
 
 class SheetDirectory(BaseEntity):
