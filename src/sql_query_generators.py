@@ -62,4 +62,5 @@ def sql_trivial_select_generate(table_name: str, columns: list[str]) -> str:
     `table_name`.
     """
     table_name = sql_sanitize(table_name)
-    return f"SELECT { ", ".join( [f"`{sql_sanitize(col)}`" for col in columns]) } FROM `{table_name}`"
+    column_list = ", ".join([f"`{sql_sanitize(col)}`" for col in columns])
+    return f"SELECT {column_list} FROM `{table_name}`"
