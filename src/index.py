@@ -1,17 +1,17 @@
-from PyQt6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QTableWidget,
-)
+from PyQt6.QtWidgets import QApplication
+
+from db import init_schema
+from repositories.settings_repository import SettingsRepository
+from user_interface.main_window import MainWindow
 import sys
+
+
+init_schema()
+
+settings_repository = SettingsRepository()
 
 app = QApplication(sys.argv)
 
-table = QTableWidget(4, 4)
-
-window = QMainWindow()
-window.setWindowTitle("APP")
-window.setCentralWidget(table)
-window.show()
+main_window = MainWindow()
 
 app.exec()

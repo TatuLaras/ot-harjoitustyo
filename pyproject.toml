@@ -9,8 +9,16 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 pyqt6 = "^6.8.1"
-
+invoke = "^2.2.0"
+pytest = "^8.3.5"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 80
+
+[tool.pyright]
+reportArgumentType = "warning"
+reportOptionalMemberAccess = "warning"
