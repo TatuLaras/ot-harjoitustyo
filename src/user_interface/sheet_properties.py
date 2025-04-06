@@ -1,6 +1,7 @@
 import typing
 import pprint
 from PyQt6.QtWidgets import (
+    QComboBox,
     QFormLayout,
     QGroupBox,
     QLabel,
@@ -12,6 +13,7 @@ from PyQt6.QtWidgets import (
 from entities.sheet import Sheet
 from repositories.sheet_repository import SheetRepository
 from utils import flatten
+from definitions import difficulties
 
 
 class SheetProperties(QGroupBox):
@@ -36,6 +38,14 @@ class SheetProperties(QGroupBox):
         self.input_composer = QLineEdit()
         layout.addRow(QLabel("Composer"), self.input_composer)
 
+        self.input_genre = QLineEdit()
+        layout.addRow(QLabel("Genre"), self.input_genre)
+
+        self.input_difficulty = QComboBox()
+        for difficulty in difficulties:
+            self.input_difficulty.addItem(difficulty)
+        layout.addRow(QLabel("Difficulty"), self.input_difficulty)
+
         # instrument_id
 
     def _update_current_sheet(self) -> bool:
@@ -50,12 +60,21 @@ class SheetProperties(QGroupBox):
 
         if flatten(self.current_sheet.title) != self.input_title.text():
             self.current_sheet.title = self.input_title.text()
-            print(self.current_sheet.title)
             has_changes = True
 
         if flatten(self.current_sheet.composer) != self.input_composer.text():
             self.current_sheet.composer = self.input_composer.text()
-            print(self.current_sheet.composer)
+            has_changes = True
+
+        if flatten(self.current_sheet.genre) != self.input_genre.text():
+            self.current_sheet.genre = self.input_genre.text()
+            has_changes = True
+
+        if (
+            self.input_difficulty.currentIndex() >= 0
+            and self.current_sheet.difficulty != self.input_difficulty.currentIndex()
+        ):
+            self.current_sheet.difficulty = self.input_difficulty.currentIndex()
             has_changes = True
 
         return has_changes
@@ -71,4 +90,6 @@ class SheetProperties(QGroupBox):
 
         self.input_title.setText(sheet.title)
         self.input_composer.setText(sheet.composer)
+        self.input_genre.setText(sheet.genre)
+        self.input_difficulty.setCurrentIndex(sheet.difficulty or -1)
         self.current_sheet = sheet

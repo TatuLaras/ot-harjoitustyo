@@ -8,7 +8,7 @@ class SheetRepository(BaseRepository):
     def get(self, sheet_id: int) -> Sheet:
         row = self.trivial_id_select(
             "sheet",
-            ["sheet_id", "instrument_id", "file_path", "title", "composer"],
+            ["sheet_id", "instrument_id", "file_path", "title", "composer", "genre", "difficulty"],
             "sheet_id",
             sheet_id,
         )
@@ -16,7 +16,8 @@ class SheetRepository(BaseRepository):
 
     def get_all(self) -> List[Sheet]:
         rows = self.trivial_select(
-            "sheet", ["sheet_id", "instrument_id", "file_path", "title", "composer"]
+            "sheet",
+            ["sheet_id", "instrument_id", "file_path", "title", "composer", "genre", "difficulty"],
         )
         return [Sheet.from_row(row) for row in rows]
 

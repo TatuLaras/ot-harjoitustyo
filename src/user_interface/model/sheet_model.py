@@ -1,6 +1,7 @@
 import typing
 from PyQt6.QtCore import QAbstractTableModel, QModelIndex, QObject, Qt
 from repositories.sheet_repository import SheetRepository
+from definitions import difficulties
 
 
 class SheetModel(QAbstractTableModel):
@@ -19,6 +20,8 @@ class SheetModel(QAbstractTableModel):
             ("File path", "file_path"),
             ("Composer", "composer"),
             ("Instrument ID", "instrument_id"),
+            ("Genre", "genre"),
+            ("Difficulty", "difficulty"),
         ]
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
@@ -33,6 +36,10 @@ class SheetModel(QAbstractTableModel):
 
         sheet = self.sheets[index.row()]
         column = self.columns[index.column()][1]
+
+        if column == "difficulty" and sheet.difficulty is not None:
+            return difficulties[sheet.difficulty]
+
         return sheet.__getattribute__(column)
 
     def headerData(

@@ -14,5 +14,7 @@ CREATE TABLE IF NOT EXISTS sheet (
     file_path TEXT NOT NULL UNIQUE,
     title TEXT NOT NULL,
     composer TEXT,
+    genre TEXT,
+    difficulty INTEGER,
     FOREIGN KEY (instrument_id) REFERENCES instrument(instrument_id)
 );

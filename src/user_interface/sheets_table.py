@@ -9,11 +9,18 @@ from user_interface.model.sheet_model import SheetModel
 
 
 class SheetsTable(QTableView):
+    """
+    Displays all stored sheet data in a table view widget
+    """
+
     def __init__(
         self,
         on_sheet_selected: typing.Callable[[Sheet, typing.Callable[[], None]], None],
         parent: typing.Optional[QWidget] = None,
     ) -> None:
+        """
+        `on_sheet_selected`: Callback for when a sheet is selected on the table view widget
+        """
         super().__init__(parent)
         self.sheet_repository = SheetRepository()
         self.sheet_service = SheetService()
@@ -28,12 +35,12 @@ class SheetsTable(QTableView):
         self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.setSortingEnabled(True)
-        self.selectionModel().selectionChanged.connect(self._selection_changed)
+        self.selectionModel().selectionChanged.connect(self._on_selection_changed)
         self.setColumnHidden(0, True)
 
         self.refresh()
 
-    def _selection_changed(self, item: QItemSelection):
+    def _on_selection_changed(self, item: QItemSelection):
         row = item.takeFirst().top()
         sheet_id = self.proxy_model.data(self.proxy_model.index(row, 0))
         self.on_sheet_selected(self.sheet_repository.get(sheet_id), self.sheet_model.updateSheets)

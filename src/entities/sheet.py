@@ -5,11 +5,13 @@ from entities.base_entity import BaseEntity
 class Sheet(BaseEntity):
     def __init__(self) -> None:
         super().__init__()
-        self.sheet_id: None | str = None
-        self.instrument_id: None | str = None
-        self.file_path: None | str = None
-        self.title: None | str = None
-        self.composer: None | str = None
+        self.sheet_id: str | None = None
+        self.instrument_id: str | None = None
+        self.file_path: str | None = None
+        self.title: str | None = None
+        self.composer: str | None = None
+        self.genre: str | None = None
+        self.difficulty: int | None = None
 
     @classmethod
     def from_filepath(cls, file_path: str):
@@ -26,4 +28,6 @@ class Sheet(BaseEntity):
         sheet.file_path = row["file_path"]
         sheet.title = row["title"]
         sheet.composer = row["composer"]
+        sheet.genre = row["genre"]
+        sheet.difficulty = row["difficulty"]
         return sheet
