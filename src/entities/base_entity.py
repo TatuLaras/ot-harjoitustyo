@@ -4,10 +4,11 @@ class BaseEntity:
 
     def to_dict(self):
         """
-        Returns a dictionary of the entitys fields, excluding fields listed in `BaseEntity.to_dict_ignore_fields`
+        Returns a dictionary of the entitys fields, excluding fields listed in
+        `BaseEntity.to_dict_ignore_fields`
         """
         fields = self.__dict__
-        return_dict = dict()
+        return_dict = {}
 
         # Filter out non database bound fields
         for key, value in fields.items():
@@ -18,6 +19,6 @@ class BaseEntity:
             if value is None:
                 continue
 
-            return_dict[key] = value
+            return_dict[key] = str(value)
 
         return return_dict

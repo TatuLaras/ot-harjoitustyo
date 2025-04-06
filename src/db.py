@@ -25,6 +25,6 @@ def init_schema():
     Runs the SQL script in `schema_file_path` on the `conn`, initializing the
     necessary tables in the SQLite database.
     """
-    with open(SCHEMA_FILE, "r") as fp:
+    with open(SCHEMA_FILE, "r", encoding="utf-8") as fp:
         contents = fp.read()
         conn.executescript(contents)

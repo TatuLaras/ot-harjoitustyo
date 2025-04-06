@@ -15,4 +15,4 @@ class SheetService:
         """
         for sheet_directory in self.settings_repository.get_sheet_directories():
             sheets = scan_directory_for_sheets(sheet_directory.path)
-            self.sheet_repository.create_sheets_many(sheets)
+            self.sheet_repository.create_many(sheets)

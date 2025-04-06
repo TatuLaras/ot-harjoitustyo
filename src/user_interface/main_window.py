@@ -1,41 +1,42 @@
-from PyQt6.QtWidgets import QListWidget, QMainWindow, QTableWidget, QToolBar
+from PyQt6.QtWidgets import (
+    QHBoxLayout,
+    QMainWindow,
+    QPushButton,
+    QToolBar,
+    QWidget,
+)
 from repositories.sheet_repository import SheetRepository
-from services.sheet_service import SheetService
 from user_interface.menu_bar import MenuBar
+from user_interface.sheet_properties import SheetProperties
+from user_interface.sheets_table import SheetsTable
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.sheet_repository = SheetRepository()
-        self.sheet_service = SheetService()
 
         self.setMenuBar(MenuBar())
         self.setWindowTitle("Sheet music management program")
 
-        self.sheets_list_widget = QListWidget()
+        main_widget = QWidget()
+        self.setCentralWidget(main_widget)
+
+        layout = QHBoxLayout()
+        main_widget.setLayout(layout)
+
+        sheet_properties = SheetProperties()
+        sheets_table_widget = SheetsTable(sheet_properties.set_sheet)
+
+        layout.addWidget(sheets_table_widget)
+        layout.addWidget(sheet_properties)
+
+        layout.setStretch(0, 1)
+
         toolbar = QToolBar()
-        refresh_action = toolbar.addAction("Refresh")
-        refresh_action.triggered.connect(self._refresh)
-
         self.addToolBar(toolbar)
-        self.setCentralWidget(self.sheets_list_widget)
 
-        self.sheet_service.scan_for_sheets()
-        self._update_sheet_table_widget()
+        refresh_action = toolbar.addAction("Refresh")
+        refresh_action.triggered.connect(sheets_table_widget.refresh)
+
         self.show()
-
-    def _refresh(self):
-        self.sheet_service.scan_for_sheets()
-        self._update_sheet_table_widget()
-
-    def _update_sheet_table_widget(self):
-        """
-        Gets the newest sheets from the database and updates the table widget.
-        """
-        sheets = self.sheet_repository.get_sheets()
-
-        # Populate list widget
-        self.sheets_list_widget.clear()
-        for sheet in sheets:
-            self.sheets_list_widget.addItem(sheet.title)

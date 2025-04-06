@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS instrument (
 );
 
 CREATE TABLE IF NOT EXISTS sheet (
-    instrument_id INTEGER,
+    sheet_id INTEGER PRIMARY KEY,
+    instrument_id INTEGER DEFAULT 0,
     file_path TEXT NOT NULL UNIQUE,
     title TEXT NOT NULL,
     composer TEXT,

@@ -3,8 +3,14 @@ from entities.base_entity import BaseEntity
 
 
 class SheetDirectory(BaseEntity):
-    def __init__(self, row: Row) -> None:
+    def __init__(self):
         super().__init__()
+        self.sheet_directory_id = None
+        self.path = None
 
-        self.sheet_directory_id = row["sheet_directory_id"]
-        self.path = row["path"]
+    @classmethod
+    def from_row(cls, row: Row):
+        sheet_directory = SheetDirectory()
+        sheet_directory.sheet_directory_id = row["sheet_directory_id"]
+        sheet_directory.path = row["path"]
+        return sheet_directory

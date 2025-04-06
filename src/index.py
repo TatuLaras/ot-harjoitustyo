@@ -1,9 +1,8 @@
+import sys
 from PyQt6.QtWidgets import QApplication
-
 from db import init_schema
 from repositories.settings_repository import SettingsRepository
 from user_interface.main_window import MainWindow
-import sys
 
 
 init_schema()

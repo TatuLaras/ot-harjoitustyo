@@ -1,17 +1,23 @@
+from enum import Enum
 from typing import Dict, List
 
 
-def sql_sanitize(string: str) -> str:
-    if len(string) == 0:
-        raise ValueError(
-            "Trying to use an empty string to generate a SQL query"
-        )
+class DuplicateHandling(Enum):
+    Ignore = 0
+    Update = 1
+
+
+def sql_sanitize(string: str, allow_empty: bool = False) -> str:
+    if len(string) == 0 and not allow_empty:
+        raise ValueError("Trying to use an empty string to generate a SQL query")
 
     return string.replace("'", "").replace("`", "")
 
 
 def sql_trivial_insert_generate(
-    table_name: str, column_values: List[Dict]
+    table_name: str,
+    column_values: List[Dict],
+    duplicate_handling: DuplicateHandling = DuplicateHandling.Ignore,
 ) -> str:
     """
     Generates a basic insert query into `table_name` with data in
@@ -24,36 +30,44 @@ def sql_trivial_insert_generate(
         raise ValueError("column_values cannot be an empty list")
 
     table_name = sql_sanitize(table_name)
-    column_list = ", ".join(
-        [f"`{sql_sanitize(x)}`" for x in column_values[0].keys()]
-    )
+    column_list = ", ".join([f"`{sql_sanitize(x)}`" for x in column_values[0].keys()])
     values_list = ", ".join(
         [
-            "("
-            + ", ".join([f"'{sql_sanitize(val)}'" for val in item.values()])
-            + ")"
+            "(" + ", ".join([f"'{sql_sanitize(val, True)}'" for val in item.values()]) + ")"
             for item in column_values
         ]
     )
 
-    return (
-        f"INSERT OR IGNORE INTO `{table_name}` ({column_list}) "
-        + f"VALUES {values_list}"
-    )
+    policy = "IGNORE" if duplicate_handling == DuplicateHandling.Ignore else "REPLACE"
+
+    return f"INSERT OR {policy} INTO `{table_name}` ({column_list}) " + f"VALUES {values_list}"
 
 
-def sql_trivial_delete_generate(
-    table_name: str, id_column: str, id_value: int
-) -> str:
+def sql_trivial_delete_generate(table_name: str, id_column: str, id_value: int) -> str:
     """
     Generates a basic DELETE query to delete an entry from table
     `table_name` where column `id_column` is equal to `id_value`.
     """
     table_name = sql_sanitize(table_name)
     id_column = sql_sanitize(id_column)
-    id = sql_sanitize(str(id_value))
+    id_str = sql_sanitize(str(id_value))
 
-    return f"DELETE FROM `{table_name}` WHERE `{id_column}` = '{id}'"
+    return f"DELETE FROM `{table_name}` WHERE `{id_column}` = '{id_str}'"
+
+
+def sql_trivial_id_select_generate(
+    table_name: str, columns: list[str], id_column: str, id_value: int
+) -> str:
+    """
+    Generates a basic SELECT query that selects columns `columns` from table
+    where column `id_column` is equal to `id_value`.
+    """
+    table_name = sql_sanitize(table_name)
+    id_column = sql_sanitize(id_column)
+    id_str = sql_sanitize(str(id_value))
+    column_list = ", ".join([f"`{sql_sanitize(col)}`" for col in columns])
+
+    return f"SELECT {column_list} FROM `{table_name}` WHERE `{id_column}` = '{id_str}'"
 
 
 def sql_trivial_select_generate(table_name: str, columns: list[str]) -> str:

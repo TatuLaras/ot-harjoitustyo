@@ -25,9 +25,7 @@ class TestQueryGenerators(unittest.TestCase):
         )
 
     def test_trivial_delete_is_correct(self):
-        query = sql_trivial_delete_generate(
-            "testing_table", "testing_table_id_column", "1234"
-        )
+        query = sql_trivial_delete_generate("testing_table", "testing_table_id_column", "1234")
         self.assertEqual(
             query,
             "DELETE FROM `testing_table` WHERE `testing_table_id_column` = '1234'",
@@ -82,9 +80,7 @@ class TestQueryGenerators(unittest.TestCase):
         )
 
     def test_trivial_delete_string_escape(self):
-        query = sql_trivial_delete_generate(
-            "testing_table`", "`testing_table_id_column", "12'34"
-        )
+        query = sql_trivial_delete_generate("testing_table`", "`testing_table_id_column", "12'34")
         self.assertEqual(
             query,
             "DELETE FROM `testing_table` WHERE `testing_table_id_column` = '1234'",
@@ -137,3 +133,6 @@ class TestQueryGenerators(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             sql_trivial_select_generate("table", ["hello", ""])
+
+
+#  TODO: id select
