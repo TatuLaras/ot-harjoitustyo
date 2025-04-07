@@ -5,13 +5,13 @@ Käyttäjä antaa sovellukselle kansion, jossa nuotit sijaitsevat PDF-muodossa.
 Tämän jälkeen sovellus indeksoi nuotit, jonka jälkeen käyttäjä voi lisätä niihin erinäistä metatietoa (nimi, säveltäjä, tyylilaji, itse määritelty kategoria, vaikeustaso jne.) ja selata kokoelmaansa erinäisin hakutyökaluin.
 
 ## Ominaisuudet
-- Nuotit haetaan käyttäjän määrittelemästä kansiosta automaattisesti
-- Käyttäjä voi muokata nuotin tietoja (nimi, säveltäjä, tyylilaji, itse määritelty kategoria, vaikeustaso jne.)
-- Käyttäjä voi tehdä hakuja tietokantaan minkä tahansa kentän ja hakuehdon perusteella
-- Käyttäjä voi luoda ja selata kokoelmia nuoteista
-- Käyttäjä voi luoda dynaamisia kokoelmia nuottihauista
-- Mahdollisuus pitää kirjaa nuottien soittokerroista, ainakin tasolla "soitettu 24.3.2025 klo 20:00"
-- Nuotit avataan käyttäjän itse määrittelemää PDF-lukijaa käyttäen
+- [x] Nuotit haetaan käyttäjän määrittelemästä kansiosta automaattisesti
+- [x] Käyttäjä voi muokata nuotin tietoja (nimi, säveltäjä, tyylilaji, itse määritelty kategoria, vaikeustaso jne.)
+- [ ] Käyttäjä voi tehdä hakuja tietokantaan minkä tahansa kentän ja hakuehdon perusteella
+- [ ] Käyttäjä voi luoda ja selata kokoelmia nuoteista
+- [ ] Käyttäjä voi luoda dynaamisia kokoelmia nuottihauista
+- [ ] Mahdollisuus pitää kirjaa nuottien soittokerroista, ainakin tasolla "soitettu 24.3.2025 klo 20:00"
+- [x] Nuotit avataan käyttäjän itse määrittelemää PDF-lukijaa käyttäen
 
 ## Lisäominaisuudet
 - Sovellus voisi pyrkiä automaattisesti täydentämään tietoja ennen käyttäjän manuaalista täsmennystä, esimerkiksi tiedoston nimeä ja sisältöä käyttäen, kenties yhdistettynä johonkin internetin asiaankuuluvaan tietokantaan.

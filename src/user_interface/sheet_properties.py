@@ -12,6 +12,7 @@ from PyQt6.QtWidgets import (
 
 from entities.sheet import Sheet
 from repositories.sheet_repository import SheetRepository
+from services.sheet_service import SheetService
 from utils import flatten
 from definitions import difficulties
 
@@ -20,6 +21,7 @@ class SheetProperties(QGroupBox):
     def __init__(self, parent: typing.Optional[QWidget] = None):
         super().__init__(parent)
         self.sheet_repository = SheetRepository()
+        self.sheet_service = SheetService()
         self.current_sheet: Sheet | None = None
 
         self.setTitle("Sheet properties")
@@ -80,6 +82,9 @@ class SheetProperties(QGroupBox):
         return has_changes
 
     def set_sheet(self, sheet: Sheet, on_refresh_needed: typing.Callable[[], None]):
+        """
+        Sets the sheet object to be currently edited, saves previous one if changes were made.
+        """
         if self.current_sheet is not None:
             refresh_needed = self._update_current_sheet()
 

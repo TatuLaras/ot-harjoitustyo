@@ -1,6 +1,7 @@
 from repositories.settings_repository import SettingsRepository
 from repositories.sheet_repository import SheetRepository
 from directory_scanning import scan_directory_for_sheets
+import subprocess
 
 
 class SheetService:
@@ -16,3 +17,7 @@ class SheetService:
         for sheet_directory in self.settings_repository.get_sheet_directories():
             sheets = scan_directory_for_sheets(sheet_directory.path)
             self.sheet_repository.create_many(sheets)
+
+    def open_file(self, file_path: str):
+        subprocess.call(["xdg-open", file_path])
+        pass

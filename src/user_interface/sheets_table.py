@@ -24,6 +24,7 @@ class SheetsTable(QTableView):
         super().__init__(parent)
         self.sheet_repository = SheetRepository()
         self.sheet_service = SheetService()
+        self.current_sheet: Sheet | None = None
 
         self.sheet_model = SheetModel()
         self.proxy_model = QSortFilterProxyModel()
@@ -36,6 +37,8 @@ class SheetsTable(QTableView):
         self.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.setSortingEnabled(True)
         self.selectionModel().selectionChanged.connect(self._on_selection_changed)
+        self.doubleClicked.connect(self._open_current_sheet)
+
         self.setColumnHidden(0, True)
 
         self.refresh()
@@ -43,7 +46,12 @@ class SheetsTable(QTableView):
     def _on_selection_changed(self, item: QItemSelection):
         row = item.takeFirst().top()
         sheet_id = self.proxy_model.data(self.proxy_model.index(row, 0))
-        self.on_sheet_selected(self.sheet_repository.get(sheet_id), self.sheet_model.updateSheets)
+        self.current_sheet = self.sheet_repository.get(sheet_id)
+        self.on_sheet_selected(self.current_sheet, self.sheet_model.updateSheets)
+
+    def _open_current_sheet(self):
+        if self.current_sheet is not None:
+            self.sheet_service.open_file(self.current_sheet.file_path)
 
     def refresh(self):
         self.sheet_service.scan_for_sheets()

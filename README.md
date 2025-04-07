@@ -1,6 +1,12 @@
 # A program for managing sheet music and guitar tabulature
 Using this program, a user can keep track of their collection of PDF sheet music and tabulature.
 
+## Dependencies
+- `qt6`
+- `xdg-open`
+
+The program will open sheets in the default program for pdf files defined for xdg-open.
+
 ## Installation
 Install dependencies using:
 ```
