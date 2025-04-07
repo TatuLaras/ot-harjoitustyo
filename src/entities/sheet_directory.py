@@ -5,8 +5,8 @@ from entities.base_entity import BaseEntity
 class SheetDirectory(BaseEntity):
     def __init__(self):
         super().__init__()
-        self.sheet_directory_id = None
-        self.path = None
+        self.sheet_directory_id: int | None = None
+        self.path: str | None = None
 
     @classmethod
     def from_row(cls, row: Row):

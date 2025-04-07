@@ -10,8 +10,8 @@ from sql_query_generators import (
 
 
 class BaseRepository:
-    def __init__(self) -> None:
-        self.conn = get_connection()
+    def __init__(self, conn=get_connection()) -> None:
+        self.conn = conn
 
     def trivial_id_select(self, table_name: str, columns: list[str], id_column: str, id_value: int):
         query = sql_trivial_id_select_generate(table_name, columns, id_column, id_value)
@@ -25,7 +25,7 @@ class BaseRepository:
         self,
         table_name: str,
         column_values: Dict,
-        duplicate_handling: DuplicateHandling = DuplicateHandling.Ignore,
+        duplicate_handling: DuplicateHandling = DuplicateHandling.IGNORE,
     ):
         self.trivial_insert_many(table_name, [column_values], duplicate_handling)
 
@@ -33,7 +33,7 @@ class BaseRepository:
         self,
         table_name: str,
         column_values: List[Dict],
-        duplicate_handling: DuplicateHandling = DuplicateHandling.Ignore,
+        duplicate_handling: DuplicateHandling = DuplicateHandling.IGNORE,
     ):
         query = sql_trivial_insert_generate(table_name, column_values, duplicate_handling)
         self.conn.execute(query)

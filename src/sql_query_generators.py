@@ -3,8 +3,8 @@ from typing import Dict, List
 
 
 class DuplicateHandling(Enum):
-    Ignore = 0
-    Update = 1
+    IGNORE = 0
+    UPDATE = 1
 
 
 def sql_sanitize(string: str, allow_empty: bool = False) -> str:
@@ -17,7 +17,7 @@ def sql_sanitize(string: str, allow_empty: bool = False) -> str:
 def sql_trivial_insert_generate(
     table_name: str,
     column_values: List[Dict],
-    duplicate_handling: DuplicateHandling = DuplicateHandling.Ignore,
+    duplicate_handling: DuplicateHandling = DuplicateHandling.IGNORE,
 ) -> str:
     """
     Generates a basic insert query into `table_name` with data in
@@ -38,7 +38,7 @@ def sql_trivial_insert_generate(
         ]
     )
 
-    policy = "IGNORE" if duplicate_handling == DuplicateHandling.Ignore else "REPLACE"
+    policy = "IGNORE" if duplicate_handling == DuplicateHandling.IGNORE else "REPLACE"
 
     return f"INSERT OR {policy} INTO `{table_name}` ({column_list}) " + f"VALUES {values_list}"
 
@@ -62,6 +62,9 @@ def sql_trivial_id_select_generate(
     Generates a basic SELECT query that selects columns `columns` from table
     where column `id_column` is equal to `id_value`.
     """
+    if len(columns) == 0:
+        raise ValueError("List `columns` cannot be empty")
+
     table_name = sql_sanitize(table_name)
     id_column = sql_sanitize(id_column)
     id_str = sql_sanitize(str(id_value))
@@ -75,6 +78,9 @@ def sql_trivial_select_generate(table_name: str, columns: list[str]) -> str:
     Generates a basic SELECT query that selects columns `columns` from table
     `table_name`.
     """
+    if len(columns) == 0:
+        raise ValueError("List `columns` cannot be empty")
+
     table_name = sql_sanitize(table_name)
     column_list = ", ".join([f"`{sql_sanitize(col)}`" for col in columns])
     return f"SELECT {column_list} FROM `{table_name}`"

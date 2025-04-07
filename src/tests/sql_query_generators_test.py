@@ -2,6 +2,7 @@ import unittest
 
 from sql_query_generators import (
     sql_trivial_delete_generate,
+    sql_trivial_id_select_generate,
     sql_trivial_insert_generate,
     sql_trivial_select_generate,
 )
@@ -22,6 +23,15 @@ class TestQueryGenerators(unittest.TestCase):
         self.assertEqual(
             query,
             "SELECT `test_col_a`, `test_col_b`, `test_col_c` FROM `testing_table`",
+        )
+
+    def test_trivial_id_select_is_correct(self):
+        query = sql_trivial_id_select_generate(
+            "testing_table", ["test_col_a", "test_col_b", "test_col_c"], "test_id", 5
+        )
+        self.assertEqual(
+            query,
+            "SELECT `test_col_a`, `test_col_b`, `test_col_c` FROM `testing_table` WHERE `test_id` = '5'",
         )
 
     def test_trivial_delete_is_correct(self):
@@ -95,6 +105,15 @@ class TestQueryGenerators(unittest.TestCase):
             "SELECT `test_col_a`, `test_col_b`, `test_col_c` FROM `testing_table`",
         )
 
+    def test_trivial_id_select_string_escape(self):
+        query = sql_trivial_id_select_generate(
+            "tes`ting_table", ["test'''_col_a", "tes'`t_col_b", "test_col_c'"], "ta'`ble_id", "1`'3"
+        )
+        self.assertEqual(
+            query,
+            "SELECT `test_col_a`, `test_col_b`, `test_col_c` FROM `testing_table` WHERE `table_id` = '13'",
+        )
+
     def test_trivial_insert_string_escape(self):
         query = sql_trivial_insert_generate(
             "testing_table",
@@ -134,5 +153,12 @@ class TestQueryGenerators(unittest.TestCase):
         with self.assertRaises(ValueError):
             sql_trivial_select_generate("table", ["hello", ""])
 
+        with self.assertRaises(ValueError):
+            sql_trivial_id_select_generate("table", ["hello", "asd"], "", 4)
 
-#  TODO: id select
+    def test_trivial_selects_throw_on_empty_column_list(self):
+        with self.assertRaises(ValueError):
+            sql_trivial_id_select_generate("table", [], "table", 4)
+
+        with self.assertRaises(ValueError):
+            sql_trivial_select_generate("table", [])

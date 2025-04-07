@@ -10,5 +10,8 @@
 - Lisätty `BaseEntity`-luokka, joka sisältää `to_dict` -metodin, jolla entiteetit voidaan muuntaa python-sanakirjoiksi sopimattomat kentät huomiotta jättäen.
 - Lisätty `SettingsRepository` -luokka, jolla voidaan hallinnoida asetuksia tietokannassa. Tällä hetkellä luokka vastaa indeksoitavista kansioista.
 - Lisätty `Sheet` (entity) ja `SheetRepository` -luokat, joiden avulla nuotteja voidaan hallinnoida tietokannassa.
-- Lisätty `SheetService` -luokka, johon voi eriyttää logiikkaa sovelluksen nuottien hallinnointiin liittyvää logiikkaa.
+- Lisätty `SheetService` -luokka, johon voi eriyttää sovelluksen nuottien hallinnointiin liittyvää logiikkaa.
 
+## Viikko 3
+- Luotu käyttöliittymä nuottien tietojen tarkasteluun ja muokkaukseen
+- Käyttäjä voi avata nuotin PDF-lukijallaan

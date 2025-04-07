@@ -1,7 +1,7 @@
+import subprocess
 from repositories.settings_repository import SettingsRepository
 from repositories.sheet_repository import SheetRepository
 from directory_scanning import scan_directory_for_sheets
-import subprocess
 
 
 class SheetService:
@@ -20,4 +20,3 @@ class SheetService:
 
     def open_file(self, file_path: str):
         subprocess.call(["xdg-open", file_path])
-        pass

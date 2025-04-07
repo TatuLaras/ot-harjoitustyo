@@ -70,3 +70,16 @@ class TestBaseEntity(unittest.TestCase):
 
     def test_null_fields_ignored(self):
         self.assertEqual(self.correct, ChildEntityNull().to_dict())
+
+    def test_column_list(self):
+        expected = [
+            "field_a",
+            "field_c",
+            "field_d",
+            "field_b",
+            "field_e",
+            "null_field",
+            "field_f",
+            "field_g",
+        ]
+        self.assertEqual(set(expected), set(ChildEntityNull.columns()))
