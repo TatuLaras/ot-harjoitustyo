@@ -1,13 +1,17 @@
 import subprocess
+from typing import List
+from entities.sheet import Sheet
 from repositories.settings_repository import SettingsRepository
 from repositories.sheet_repository import SheetRepository
 from directory_scanning import scan_directory_for_sheets
 
 
 class SheetService:
-    def __init__(self) -> None:
-        self.settings_repository = SettingsRepository()
-        self.sheet_repository = SheetRepository()
+    def __init__(
+        self, settings_repository=SettingsRepository(), sheet_repository=SheetRepository()
+    ) -> None:
+        self.settings_repository = settings_repository
+        self.sheet_repository = sheet_repository
 
     def scan_for_sheets(self):
         """
@@ -20,3 +24,21 @@ class SheetService:
 
     def open_file(self, file_path: str):
         subprocess.call(["xdg-open", file_path])
+
+    def get_sheet_by_id(self, sheet_id: int) -> Sheet:
+        return self.sheet_repository.get(sheet_id)
+
+    def get_all_sheets(self) -> List[Sheet]:
+        return self.sheet_repository.get_all()
+
+    def create_sheet(self, sheet: Sheet):
+        self.sheet_repository.create(sheet)
+
+    def update_sheet(self, sheet: Sheet):
+        self.sheet_repository.update(sheet)
+
+    def create_many_sheets(self, sheets: List[Sheet]):
+        self.sheet_repository.create_many(sheets)
+
+    def delete_sheet(self, sheet_id: int):
+        self.sheet_repository.delete(sheet_id)

@@ -2,6 +2,7 @@ import typing
 from PyQt6.QtCore import QAbstractTableModel, QModelIndex, QObject, Qt
 from repositories.sheet_repository import SheetRepository
 from definitions import difficulties
+from services.sheet_service import SheetService
 
 
 class SheetModel(QAbstractTableModel):
@@ -12,7 +13,7 @@ class SheetModel(QAbstractTableModel):
 
     def __init__(self, parent: typing.Optional[QObject] = None) -> None:
         super().__init__(parent)
-        self.sheet_repository = SheetRepository()
+        self.sheet_service = SheetService()
         self.sheets = []
         self.columns = [
             ("", "sheet_id"),
@@ -51,5 +52,5 @@ class SheetModel(QAbstractTableModel):
 
     def updateSheets(self):
         self.beginResetModel()
-        self.sheets = self.sheet_repository.get_all()
+        self.sheets = self.sheet_service.get_all_sheets()
         self.endResetModel()

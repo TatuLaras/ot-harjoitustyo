@@ -3,7 +3,6 @@ from PyQt6.QtCore import QItemSelection, QSortFilterProxyModel
 from PyQt6.QtWidgets import QAbstractItemView, QTableView, QWidget
 
 from entities.sheet import Sheet
-from repositories.sheet_repository import SheetRepository
 from services.sheet_service import SheetService
 from user_interface.model.sheet_model import SheetModel
 
@@ -22,7 +21,6 @@ class SheetsTable(QTableView):
         `on_sheet_selected`: Callback for when a sheet is selected on the table view widget
         """
         super().__init__(parent)
-        self.sheet_repository = SheetRepository()
         self.sheet_service = SheetService()
         self.current_sheet: Sheet | None = None
 
@@ -46,7 +44,7 @@ class SheetsTable(QTableView):
     def _on_selection_changed(self, item: QItemSelection):
         row = item.takeFirst().top()
         sheet_id = self.proxy_model.data(self.proxy_model.index(row, 0))
-        self.current_sheet = self.sheet_repository.get(sheet_id)
+        self.current_sheet = self.sheet_service.get_sheet_by_id(sheet_id)
         self.on_sheet_selected(self.current_sheet, self.sheet_model.updateSheets)
 
     def _open_current_sheet(self):

@@ -1,5 +1,4 @@
 import typing
-import pprint
 from PyQt6.QtWidgets import (
     QComboBox,
     QFormLayout,
@@ -11,16 +10,18 @@ from PyQt6.QtWidgets import (
 )
 
 from entities.sheet import Sheet
-from repositories.sheet_repository import SheetRepository
 from services.sheet_service import SheetService
 from utils import flatten
 from definitions import difficulties
 
 
 class SheetProperties(QGroupBox):
+    """
+    A right-hand-side panel for editing properties of the currently selected sheet.
+    """
+
     def __init__(self, parent: typing.Optional[QWidget] = None):
         super().__init__(parent)
-        self.sheet_repository = SheetRepository()
         self.sheet_service = SheetService()
         self.current_sheet: Sheet | None = None
 
@@ -47,8 +48,6 @@ class SheetProperties(QGroupBox):
         for difficulty in difficulties:
             self.input_difficulty.addItem(difficulty)
         layout.addRow(QLabel("Difficulty"), self.input_difficulty)
-
-        # instrument_id
 
     def _update_current_sheet(self) -> bool:
         """
@@ -88,7 +87,7 @@ class SheetProperties(QGroupBox):
         if self.current_sheet is not None:
             refresh_needed = self._update_current_sheet()
 
-            self.sheet_repository.update(self.current_sheet)
+            self.sheet_service.update_sheet(self.current_sheet)
 
             if refresh_needed:
                 on_refresh_needed()

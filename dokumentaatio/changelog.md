@@ -15,3 +15,5 @@
 ## Viikko 3
 - Luotu käyttöliittymä nuottien tietojen tarkasteluun ja muokkaukseen
 - Käyttäjä voi avata nuotin PDF-lukijallaan
+- Lisätty `SearchParameter`-luokka jonka avulla voi luoda suodattimia ja muuntaa niitä SQL-muotoiseksi WHERE-lausekkeeksi
+- Suurimpaan osaan ei-käyttöliittymän logiikasta automaattitestit

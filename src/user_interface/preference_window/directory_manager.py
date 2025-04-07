@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import (
     QFileDialog,
 )
 
-from repositories.settings_repository import SettingsRepository
+from services.settings_service import SettingsService
 
 
 class DirectoryManager(QGroupBox):
@@ -19,7 +19,8 @@ class DirectoryManager(QGroupBox):
 
     def __init__(self):
         super().__init__()
-        self.settings_repository = SettingsRepository()
+        self.settings_service = SettingsService()
+
         self.dir_picker = None
         self.directories = []
 
@@ -53,7 +54,7 @@ class DirectoryManager(QGroupBox):
         Gets the updated list of directories from the database and populates
         the list widgets along with the internal list
         """
-        self.directories = self.settings_repository.get_sheet_directories()
+        self.directories = self.settings_service.get_sheet_directories()
 
         # Populate list widget
         self.dir_list_widget.clear()
@@ -69,7 +70,7 @@ class DirectoryManager(QGroupBox):
         if selected_index < 0:
             return
 
-        self.settings_repository.delete_sheet_directory(
+        self.settings_service.delete_sheet_directory(
             self.directories[selected_index].sheet_directory_id
         )
         self._update_dir_list()
@@ -81,7 +82,7 @@ class DirectoryManager(QGroupBox):
         if path is None:
             return
 
-        self.settings_repository.create_sheet_directory(path)
+        self.settings_service.create_sheet_directory(path)
         self._update_dir_list()
 
     def _open_directory_picker(self):
@@ -92,8 +93,6 @@ class DirectoryManager(QGroupBox):
             self.dir_picker = QFileDialog()
             self.dir_picker.setFileMode(QFileDialog.FileMode.Directory)
             self.dir_picker.setOption(QFileDialog.Option.ShowDirsOnly, True)
-            self.dir_picker.fileSelected.connect(
-                self._directory_picker_file_selected
-            )
+            self.dir_picker.fileSelected.connect(self._directory_picker_file_selected)
 
         self.dir_picker.show()

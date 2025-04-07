@@ -13,7 +13,6 @@ from user_interface.sheets_table import SheetsTable
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.sheet_repository = SheetRepository()
 
         self.setMenuBar(MenuBar())
         self.setWindowTitle("Sheet music management program")
