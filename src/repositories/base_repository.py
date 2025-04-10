@@ -27,7 +27,6 @@ class BaseRepository:
         self, table_name: str, columns: list[str], search_parameters: List[SearchParameter]
     ):
         query = sql_trivial_select_with_params_generate(table_name, columns, search_parameters)
-        print(query)
         return self.conn.execute(query).fetchall()
 
     def trivial_insert(
