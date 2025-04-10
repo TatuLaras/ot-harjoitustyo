@@ -11,7 +11,7 @@ class Constraint(Enum):
 
 
 class SearchParameter:
-    def __init__(self, column: str, value: str, constraint=Constraint.EQUIVALENT):
+    def __init__(self, column: str, value, constraint=Constraint.EQUIVALENT):
         self.column = column
         self.value = value
         self.constraint = constraint

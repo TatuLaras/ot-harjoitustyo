@@ -13,7 +13,7 @@ class TestSearchParams(unittest.TestCase):
 
     def test_output_correct(self):
         params = [
-            SearchParameter("id", 4, Constraint.LessEqual),
+            SearchParameter("id", 4, Constraint.LESS_EQUAL),
             SearchParameter("name", "Maija"),
             SearchParameter("company", "Company co."),
         ]
@@ -26,24 +26,24 @@ class TestSearchParams(unittest.TestCase):
 
     def test_constraints_correct(self):
         params = [
-            SearchParameter("val_1", 1, Constraint.LessEqual),
-            SearchParameter("val_2", 2, Constraint.Equivalent),
-            SearchParameter("val_3", 3, Constraint.Less),
-            SearchParameter("val_4", 4, Constraint.LessEqual),
-            SearchParameter("val_5", 5, Constraint.Greater),
-            SearchParameter("val_6", 6, Constraint.GreaterEqual),
+            SearchParameter("val_1", 1, Constraint.LESS_EQUAL),
+            SearchParameter("val_2", 2, Constraint.EQUIVALENT),
+            SearchParameter("val_3", 3, Constraint.LESS),
+            SearchParameter("val_4", 4, Constraint.LESS_EQUAL),
+            SearchParameter("val_5", 5, Constraint.GREATER),
+            SearchParameter("val_6", 6, Constraint.GREATER_EQUAL),
         ]
         expected = "`val_1` <= '1' AND `val_2` = '2' AND `val_3` < '3' AND `val_4` <= '4' AND `val_5` > '5' AND `val_6` >= '6'"
         self.assertEqual(expected, generate_where_query(params))
 
     def test_str_values_have_constraint_flattened_to_equal(self):
         params = [
-            SearchParameter("val_1", "1", Constraint.LessEqual),
-            SearchParameter("val_2", "2", Constraint.Equivalent),
-            SearchParameter("val_3", "3", Constraint.Less),
-            SearchParameter("val_4", "4", Constraint.LessEqual),
-            SearchParameter("val_5", "5", Constraint.Greater),
-            SearchParameter("val_6", "6", Constraint.GreaterEqual),
+            SearchParameter("val_1", "1", Constraint.LESS_EQUAL),
+            SearchParameter("val_2", "2", Constraint.EQUIVALENT),
+            SearchParameter("val_3", "3", Constraint.LESS),
+            SearchParameter("val_4", "4", Constraint.LESS_EQUAL),
+            SearchParameter("val_5", "5", Constraint.GREATER),
+            SearchParameter("val_6", "6", Constraint.GREATER_EQUAL),
         ]
         expected = "`val_1` = '1' AND `val_2` = '2' AND `val_3` = '3' AND `val_4` = '4' AND `val_5` = '5' AND `val_6` = '6'"
         self.assertEqual(expected, generate_where_query(params))

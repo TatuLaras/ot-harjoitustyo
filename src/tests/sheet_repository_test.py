@@ -57,7 +57,7 @@ class TestSheetRepository(unittest.TestCase):
             sql_trivial_insert_generate(
                 "sheet",
                 [{"title": self.test_sheet.title}],
-                duplicate_handling=DuplicateHandling.Update,
+                duplicate_handling=DuplicateHandling.UPDATE,
             )
         )
 
