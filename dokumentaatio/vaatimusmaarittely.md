@@ -7,9 +7,9 @@ Tämän jälkeen sovellus indeksoi nuotit, jonka jälkeen käyttäjä voi lisät
 ## Ominaisuudet
 - [x] Nuotit haetaan käyttäjän määrittelemästä kansiosta automaattisesti
 - [x] Käyttäjä voi muokata nuotin tietoja (nimi, säveltäjä, tyylilaji, itse määritelty kategoria, vaikeustaso jne.)
-- [ ] Käyttäjä voi tehdä hakuja tietokantaan minkä tahansa kentän ja hakuehdon perusteella
-- [ ] Käyttäjä voi luoda ja selata kokoelmia nuoteista
+- [x] Käyttäjä voi tehdä hakuja tietokantaan minkä tahansa kentän ja hakuehdon perusteella
 - [ ] Käyttäjä voi luoda dynaamisia kokoelmia nuottihauista
+- [ ] Käyttäjä voi luoda ja selata kokoelmia nuoteista
 - [ ] Mahdollisuus pitää kirjaa nuottien soittokerroista, ainakin tasolla "soitettu 24.3.2025 klo 20:00"
 - [x] Nuotit avataan käyttäjän itse määrittelemää PDF-lukijaa käyttäen
 
