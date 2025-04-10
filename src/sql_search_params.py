@@ -8,6 +8,7 @@ class Constraint(Enum):
     LESS_EQUAL = 2
     GREATER = 3
     GREATER_EQUAL = 4
+    CONTAINS = 5
 
 
 class SearchParameter:
@@ -20,13 +21,11 @@ class SearchParameter:
         """
         Turns the `SearchParameter` into a SQL WHERE-query constraint like "column = 'value'".
         """
-        return f"`{self.column}` {self.equivalence_operator} '{self.value}'"
+        value = f"%{self.value}%" if self.constraint == Constraint.CONTAINS else self.value
+        return f"`{self.column}` {self.equivalence_operator} '{value}'"
 
     @property
     def equivalence_operator(self):
-        if isinstance(self.value, str):
-            return "="
-
         match self.constraint:
             case Constraint.EQUIVALENT:
                 return "="
@@ -38,6 +37,8 @@ class SearchParameter:
                 return ">"
             case Constraint.GREATER_EQUAL:
                 return ">="
+            case Constraint.CONTAINS:
+                return "LIKE"
 
 
 def generate_where_query(params: List[SearchParameter]):

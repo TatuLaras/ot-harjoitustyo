@@ -4,6 +4,7 @@ from entities.sheet import Sheet
 from repositories.settings_repository import SettingsRepository
 from repositories.sheet_repository import SheetRepository
 from directory_scanning import scan_directory_for_sheets
+from sql_search_params import SearchParameter
 
 
 class SheetService:
@@ -23,13 +24,16 @@ class SheetService:
             self.sheet_repository.create_many(sheets)
 
     def open_file(self, file_path: str):
-        subprocess.call(["xdg-open", file_path])
+        subprocess.Popen(["xdg-open", file_path])
 
     def get_sheet_by_id(self, sheet_id: int) -> Sheet:
         return self.sheet_repository.get(sheet_id)
 
     def get_all_sheets(self) -> List[Sheet]:
         return self.sheet_repository.get_all()
+
+    def get_all_sheets_with_params(self, search_parameters: List[SearchParameter]) -> List[Sheet]:
+        return self.sheet_repository.get_all_with_params(search_parameters)
 
     def create_sheet(self, sheet: Sheet):
         self.sheet_repository.create(sheet)

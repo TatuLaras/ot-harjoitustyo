@@ -1,11 +1,12 @@
 from PyQt6.QtWidgets import (
     QHBoxLayout,
+    QVBoxLayout,
     QMainWindow,
     QToolBar,
     QWidget,
 )
-from repositories.sheet_repository import SheetRepository
 from user_interface.menu_bar import MenuBar
+from user_interface.search_parameter_editor import SearchParameterEditor
 from user_interface.sheet_properties import SheetProperties
 from user_interface.sheets_table import SheetsTable
 
@@ -23,10 +24,17 @@ class MainWindow(QMainWindow):
         layout = QHBoxLayout()
         main_widget.setLayout(layout)
 
+        left_widget = QWidget()
+        left_layout = QVBoxLayout()
+        left_widget.setLayout(left_layout)
+
         sheet_properties = SheetProperties()
         sheets_table_widget = SheetsTable(sheet_properties.set_sheet)
 
-        layout.addWidget(sheets_table_widget)
+        left_layout.addWidget(SearchParameterEditor(sheets_table_widget.on_params_changed))
+        left_layout.addWidget(sheets_table_widget)
+
+        layout.addWidget(left_widget)
         layout.addWidget(sheet_properties)
 
         layout.setStretch(0, 1)

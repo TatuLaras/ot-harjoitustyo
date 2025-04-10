@@ -1,8 +1,9 @@
-import typing
+from typing import Any, List, Optional
 from PyQt6.QtCore import QAbstractTableModel, QModelIndex, QObject, Qt
 from repositories.sheet_repository import SheetRepository
 from definitions import difficulties
 from services.sheet_service import SheetService
+from sql_search_params import SearchParameter
 
 
 class SheetModel(QAbstractTableModel):
@@ -11,7 +12,7 @@ class SheetModel(QAbstractTableModel):
     order to have access to the sheet data
     """
 
-    def __init__(self, parent: typing.Optional[QObject] = None) -> None:
+    def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent)
         self.sheet_service = SheetService()
         self.sheets = []
@@ -31,7 +32,7 @@ class SheetModel(QAbstractTableModel):
     def columnCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return len(self.columns)
 
-    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> typing.Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if role != Qt.ItemDataRole.DisplayRole:
             return
 
@@ -45,7 +46,7 @@ class SheetModel(QAbstractTableModel):
 
     def headerData(
         self, section: int, orientation: Qt.Orientation, role: int = Qt.ItemDataRole.DisplayRole
-    ) -> typing.Any:
+    ) -> Any:
         if role != Qt.ItemDataRole.DisplayRole or orientation != Qt.Orientation.Horizontal:
             return
         return self.columns[section][0]
@@ -53,4 +54,9 @@ class SheetModel(QAbstractTableModel):
     def updateSheets(self):
         self.beginResetModel()
         self.sheets = self.sheet_service.get_all_sheets()
+        self.endResetModel()
+
+    def updateSheetsWithParameters(self, search_parameters: List[SearchParameter]):
+        self.beginResetModel()
+        self.sheets = self.sheet_service.get_all_sheets_with_params(search_parameters)
         self.endResetModel()

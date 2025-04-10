@@ -1,12 +1,15 @@
 from sqlite3 import Row
+from typing import List
 from entities.base_entity import BaseEntity
+from sql_search_params import Constraint, SearchParameter
+from utils import safe_cast_to_int
 
 
 class Sheet(BaseEntity):
     def __init__(self) -> None:
         super().__init__()
-        self.sheet_id: str | None = None
-        self.instrument_id: str | None = None
+        self.sheet_id: int | None = None
+        self.instrument_id: int | None = None
         self.file_path: str | None = None
         self.title: str | None = None
         self.composer: str | None = None
@@ -31,3 +34,20 @@ class Sheet(BaseEntity):
         sheet.genre = row["genre"]
         sheet.difficulty = row["difficulty"]
         return sheet
+
+    @classmethod
+    def sanitize_search_parameters(
+        cls,
+        search_parameters: List[SearchParameter],
+    ) -> List[SearchParameter]:
+        valid = []
+        for param in search_parameters:
+            if isinstance(param.value, str) and len(param.value) == 0:
+                continue
+
+            if param.column in ("sheet_id", "instrument_id", "difficulty"):
+                param.value = safe_cast_to_int(param.value)
+
+            valid.append(param)
+
+        return valid

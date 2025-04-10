@@ -1,9 +1,11 @@
-import typing
+from collections.abc import Callable
+from typing import List
 from PyQt6.QtCore import QItemSelection, QSortFilterProxyModel
-from PyQt6.QtWidgets import QAbstractItemView, QTableView, QWidget
+from PyQt6.QtWidgets import QAbstractItemView, QTableView
 
 from entities.sheet import Sheet
 from services.sheet_service import SheetService
+from sql_search_params import SearchParameter
 from user_interface.model.sheet_model import SheetModel
 
 
@@ -14,15 +16,15 @@ class SheetsTable(QTableView):
 
     def __init__(
         self,
-        on_sheet_selected: typing.Callable[[Sheet, typing.Callable[[], None]], None],
-        parent: typing.Optional[QWidget] = None,
+        on_sheet_selected: Callable[[Sheet, Callable[[], None]], None],
     ) -> None:
         """
         `on_sheet_selected`: Callback for when a sheet is selected on the table view widget
         """
-        super().__init__(parent)
+        super().__init__()
         self.sheet_service = SheetService()
         self.current_sheet: Sheet | None = None
+        self.params = []
 
         self.sheet_model = SheetModel()
         self.proxy_model = QSortFilterProxyModel()
@@ -48,9 +50,19 @@ class SheetsTable(QTableView):
         self.on_sheet_selected(self.current_sheet, self.sheet_model.updateSheets)
 
     def _open_current_sheet(self):
-        if self.current_sheet is not None:
+        if self.current_sheet is not None and self.current_sheet.file_path is not None:
             self.sheet_service.open_file(self.current_sheet.file_path)
 
     def refresh(self):
         self.sheet_service.scan_for_sheets()
-        self.sheet_model.updateSheets()
+        self._update_from_db()
+
+    def _update_from_db(self):
+        if len(self.params) > 0:
+            self.sheet_model.updateSheetsWithParameters(self.params)
+        else:
+            self.sheet_model.updateSheets()
+
+    def on_params_changed(self, search_params: List[SearchParameter]):
+        self.params = search_params
+        self._update_from_db()

@@ -6,7 +6,9 @@ from sql_query_generators import (
     sql_trivial_id_select_generate,
     sql_trivial_insert_generate,
     sql_trivial_select_generate,
+    sql_trivial_select_with_params_generate,
 )
+from sql_search_params import SearchParameter
 
 
 class BaseRepository:
@@ -19,6 +21,13 @@ class BaseRepository:
 
     def trivial_select(self, table_name: str, columns: list[str]):
         query = sql_trivial_select_generate(table_name, columns)
+        return self.conn.execute(query).fetchall()
+
+    def trivial_select_with_params(
+        self, table_name: str, columns: list[str], search_parameters: List[SearchParameter]
+    ):
+        query = sql_trivial_select_with_params_generate(table_name, columns, search_parameters)
+        print(query)
         return self.conn.execute(query).fetchall()
 
     def trivial_insert(

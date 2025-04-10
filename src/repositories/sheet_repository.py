@@ -2,6 +2,7 @@ from typing import List
 from entities.sheet import Sheet
 from repositories.base_repository import BaseRepository
 from sql_query_generators import DuplicateHandling
+from sql_search_params import SearchParameter
 
 
 class SheetRepository(BaseRepository):
@@ -11,6 +12,12 @@ class SheetRepository(BaseRepository):
 
     def get_all(self) -> List[Sheet]:
         rows = self.trivial_select("sheet", Sheet.columns())
+        return [Sheet.from_row(row) for row in rows]
+
+    def get_all_with_params(self, search_parameters: List[SearchParameter]) -> List[Sheet]:
+        rows = self.trivial_select_with_params(
+            "sheet", Sheet.columns(), Sheet.sanitize_search_parameters(search_parameters)
+        )
         return [Sheet.from_row(row) for row in rows]
 
     def create(self, sheet: Sheet):

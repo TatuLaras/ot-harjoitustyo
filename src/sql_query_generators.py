@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import Dict, List
 
+from sql_search_params import SearchParameter, generate_where_query
+
 
 class DuplicateHandling(Enum):
     IGNORE = 0
@@ -84,3 +86,11 @@ def sql_trivial_select_generate(table_name: str, columns: list[str]) -> str:
     table_name = sql_sanitize(table_name)
     column_list = ", ".join([f"`{sql_sanitize(col)}`" for col in columns])
     return f"SELECT {column_list} FROM `{table_name}`"
+
+
+def sql_trivial_select_with_params_generate(
+    table_name: str, columns: list[str], search_parameters: List[SearchParameter]
+) -> str:
+    where = generate_where_query(search_parameters)
+    main_query = sql_trivial_select_generate(table_name, columns)
+    return f"{main_query} WHERE {where}"
