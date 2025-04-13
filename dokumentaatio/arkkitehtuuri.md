@@ -21,6 +21,8 @@ classDiagram
     SheetService..>SheetRepository
     SheetService..>Sheet
     SheetRepository..>Sheet
+    SettingsService..>Instrument
+    SettingsRepository..>Instrument
     SettingsService..>SheetDirectory
     SettingsRepository..>SheetDirectory
     UI..>Sheet
