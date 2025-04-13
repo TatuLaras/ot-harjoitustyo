@@ -16,7 +16,7 @@ class SheetsTable(QTableView):
 
     def __init__(
         self,
-        on_sheet_selected: Callable[[Sheet, Callable[[], None]], None],
+        on_sheet_selected: Callable[[Sheet], None] | None = None,
     ) -> None:
         """
         `on_sheet_selected`: Callback for when a sheet is selected on the table view widget
@@ -47,7 +47,9 @@ class SheetsTable(QTableView):
         row = item.takeFirst().top()
         sheet_id = self.proxy_model.data(self.proxy_model.index(row, 0))
         self.current_sheet = self.sheet_service.get_sheet_by_id(sheet_id)
-        self.on_sheet_selected(self.current_sheet, self.sheet_model.updateSheets)
+
+        if self.on_sheet_selected is not None:
+            self.on_sheet_selected(self.current_sheet)
 
     def _open_current_sheet(self):
         if self.current_sheet is not None and self.current_sheet.file_path is not None:
@@ -55,9 +57,9 @@ class SheetsTable(QTableView):
 
     def refresh(self):
         self.sheet_service.scan_for_sheets()
-        self._update_from_db()
+        self.update_sheets_from_db()
 
-    def _update_from_db(self):
+    def update_sheets_from_db(self):
         if len(self.params) > 0:
             self.sheet_model.updateSheetsWithParameters(self.params)
         else:
@@ -65,4 +67,4 @@ class SheetsTable(QTableView):
 
     def on_params_changed(self, search_params: List[SearchParameter]):
         self.params = search_params
-        self._update_from_db()
+        self.update_sheets_from_db()

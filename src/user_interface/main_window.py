@@ -28,8 +28,9 @@ class MainWindow(QMainWindow):
         left_layout = QVBoxLayout()
         left_widget.setLayout(left_layout)
 
-        sheet_properties = SheetProperties()
-        sheets_table_widget = SheetsTable(sheet_properties.set_sheet)
+        sheets_table_widget = SheetsTable()
+        sheet_properties = SheetProperties(sheets_table_widget.update_sheets_from_db)
+        sheets_table_widget.on_sheet_selected = sheet_properties.set_sheet
 
         left_layout.addWidget(SearchParameterEditor(sheets_table_widget.on_params_changed))
         left_layout.addWidget(sheets_table_widget)

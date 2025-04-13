@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
     QGroupBox,
     QLabel,
     QLineEdit,
+    QPushButton,
     QVBoxLayout,
     QWidget,
 )
@@ -20,9 +21,12 @@ class SheetProperties(QGroupBox):
     A right-hand-side panel for editing properties of the currently selected sheet.
     """
 
-    def __init__(self, parent: typing.Optional[QWidget] = None):
+    def __init__(
+        self, on_refresh_needed: typing.Callable[[], None], parent: typing.Optional[QWidget] = None
+    ):
         super().__init__(parent)
         self.sheet_service = SheetService()
+        self.on_refresh_needed = on_refresh_needed
         self.current_sheet: Sheet | None = None
 
         self.setTitle("Sheet properties")
@@ -36,18 +40,22 @@ class SheetProperties(QGroupBox):
         wrapper.addWidget(widget)
 
         self.input_title = QLineEdit()
-        layout.addRow(QLabel("Title"), self.input_title)
+        layout.addRow("Title", self.input_title)
 
         self.input_composer = QLineEdit()
-        layout.addRow(QLabel("Composer"), self.input_composer)
+        layout.addRow("Composer", self.input_composer)
 
         self.input_genre = QLineEdit()
-        layout.addRow(QLabel("Genre"), self.input_genre)
+        layout.addRow("Genre", self.input_genre)
 
         self.input_difficulty = QComboBox()
         for difficulty in difficulties:
             self.input_difficulty.addItem(difficulty)
-        layout.addRow(QLabel("Difficulty"), self.input_difficulty)
+        layout.addRow("Difficulty", self.input_difficulty)
+
+        save_button_widget = QPushButton("Save")
+        save_button_widget.clicked.connect(self._save_current_sheet)
+        layout.addRow(None, save_button_widget)
 
     def _update_current_sheet(self) -> bool:
         """
@@ -80,20 +88,25 @@ class SheetProperties(QGroupBox):
 
         return has_changes
 
-    def set_sheet(self, sheet: Sheet, on_refresh_needed: typing.Callable[[], None]):
+    def set_sheet(self, sheet: Sheet):
         """
         Sets the sheet object to be currently edited, saves previous one if changes were made.
         """
-        if self.current_sheet is not None:
-            refresh_needed = self._update_current_sheet()
-
-            self.sheet_service.update_sheet(self.current_sheet)
-
-            if refresh_needed:
-                on_refresh_needed()
+        self._save_current_sheet()
 
         self.input_title.setText(sheet.title)
         self.input_composer.setText(sheet.composer)
         self.input_genre.setText(sheet.genre)
         self.input_difficulty.setCurrentIndex(sheet.difficulty or -1)
         self.current_sheet = sheet
+
+    def _save_current_sheet(self):
+        if self.current_sheet is None:
+            return
+
+        refresh_needed = self._update_current_sheet()
+
+        self.sheet_service.update_sheet(self.current_sheet)
+
+        if refresh_needed:
+            self.on_refresh_needed()
