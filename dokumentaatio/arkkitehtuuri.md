@@ -25,3 +25,17 @@ classDiagram
     SettingsRepository..>SheetDirectory
     UI..>Sheet
 ```
+
+## Sekvenssikaavio tapahtumasta nuotin tietojen muokkaus
+```mermaid
+sequenceDiagram
+    SheetProperties (UI) ->>SheetService: update_sheet(sheet)
+    SheetService ->>SheetRepository: update(sheet)
+    SheetRepository ->>SheetRepository: trivial_insert("sheet", sheet, DuplicateHandling.UPDATE)
+    SheetRepository ->>SheetRepository: trivial_insert_many("sheet", sheet, DuplicateHandling.UPDATE)
+    SheetRepository ->>sql_query_generators: sql_trivial_insert_generate("sheet", sheet, DuplicateHandling.UPDATE)
+    sql_query_generators ->>SheetRepository: query
+    SheetRepository ->>sqlite3.Connection: execute(query)
+    SheetRepository ->>sqlite3.Connection: commit()
+
+```
