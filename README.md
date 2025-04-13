@@ -6,6 +6,7 @@ Using this program, a user can keep track of their collection of PDF sheet music
 - `xdg-open`
 
 The program will open sheets in the default program for pdf files defined for xdg-open.
+Only Linux is officially supported.
 
 ## Installation
 Install dependencies using:
