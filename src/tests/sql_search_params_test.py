@@ -32,19 +32,7 @@ class TestSearchParams(unittest.TestCase):
             SearchParameter("val_4", 4, Constraint.LESS_EQUAL),
             SearchParameter("val_5", 5, Constraint.GREATER),
             SearchParameter("val_6", 6, Constraint.GREATER_EQUAL),
+            SearchParameter("val_7", "val", Constraint.CONTAINS),
         ]
-        expected = "`val_1` <= '1' AND `val_2` = '2' AND `val_3` < '3' AND `val_4` <= '4' AND `val_5` > '5' AND `val_6` >= '6'"
+        expected = "`val_1` <= '1' AND `val_2` = '2' AND `val_3` < '3' AND `val_4` <= '4' AND `val_5` > '5' AND `val_6` >= '6' AND `val_7` LIKE '%val%'"
         self.assertEqual(expected, generate_where_query(params))
-
-    def test_str_values_have_constraint_flattened_to_equal(self):
-        params = [
-            SearchParameter("val_1", "1", Constraint.LESS_EQUAL),
-            SearchParameter("val_2", "2", Constraint.EQUIVALENT),
-            SearchParameter("val_3", "3", Constraint.LESS),
-            SearchParameter("val_4", "4", Constraint.LESS_EQUAL),
-            SearchParameter("val_5", "5", Constraint.GREATER),
-            SearchParameter("val_6", "6", Constraint.GREATER_EQUAL),
-        ]
-        expected = "`val_1` = '1' AND `val_2` = '2' AND `val_3` = '3' AND `val_4` = '4' AND `val_5` = '5' AND `val_6` = '6'"
-        self.assertEqual(expected, generate_where_query(params))
-        pass

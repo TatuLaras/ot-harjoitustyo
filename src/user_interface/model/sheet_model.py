@@ -1,6 +1,5 @@
 from typing import Any, List, Optional
 from PyQt6.QtCore import QAbstractTableModel, QModelIndex, QObject, Qt
-from repositories.sheet_repository import SheetRepository
 from definitions import difficulties
 from services.sheet_service import SheetService
 from sql_search_params import SearchParameter
@@ -19,11 +18,11 @@ class SheetModel(QAbstractTableModel):
         self.columns = [
             ("", "sheet_id"),
             ("Title", "title"),
-            ("File path", "file_path"),
             ("Composer", "composer"),
-            ("Instrument ID", "instrument_id"),
-            ("Genre", "genre"),
+            ("Instrument", "instrument"),
             ("Difficulty", "difficulty"),
+            ("Genre", "genre"),
+            ("File path", "file_path"),
         ]
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:

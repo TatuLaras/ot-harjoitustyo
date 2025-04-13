@@ -1,9 +1,9 @@
-import typing
+from collections.abc import Callable
+from typing import Optional
 from PyQt6.QtWidgets import (
     QComboBox,
     QFormLayout,
     QGroupBox,
-    QLabel,
     QLineEdit,
     QPushButton,
     QVBoxLayout,
@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (
 )
 
 from entities.sheet import Sheet
+from services.settings_service import SettingsService
 from services.sheet_service import SheetService
 from utils import flatten
 from definitions import difficulties
@@ -21,11 +22,10 @@ class SheetProperties(QGroupBox):
     A right-hand-side panel for editing properties of the currently selected sheet.
     """
 
-    def __init__(
-        self, on_refresh_needed: typing.Callable[[], None], parent: typing.Optional[QWidget] = None
-    ):
+    def __init__(self, on_refresh_needed: Callable[[], None], parent: Optional[QWidget] = None):
         super().__init__(parent)
         self.sheet_service = SheetService()
+        self.settings_service = SettingsService()
         self.on_refresh_needed = on_refresh_needed
         self.current_sheet: Sheet | None = None
 
@@ -52,6 +52,11 @@ class SheetProperties(QGroupBox):
         for difficulty in difficulties:
             self.input_difficulty.addItem(difficulty)
         layout.addRow("Difficulty", self.input_difficulty)
+
+        self.input_instrument = QComboBox()
+        for instrument in [x.name for x in self.settings_service.get_instruments()]:
+            self.input_instrument.addItem(instrument)
+        layout.addRow("Instrument", self.input_instrument)
 
         save_button_widget = QPushButton("Save")
         save_button_widget.clicked.connect(self._save_current_sheet)
@@ -86,6 +91,13 @@ class SheetProperties(QGroupBox):
             self.current_sheet.difficulty = self.input_difficulty.currentIndex()
             has_changes = True
 
+        if (
+            self.input_instrument.currentIndex() >= 0
+            and self.current_sheet.instrument != self.input_instrument.currentText()
+        ):
+            self.current_sheet.instrument = self.input_instrument.currentText()
+            has_changes = True
+
         return has_changes
 
     def set_sheet(self, sheet: Sheet):
@@ -98,6 +110,17 @@ class SheetProperties(QGroupBox):
         self.input_composer.setText(sheet.composer)
         self.input_genre.setText(sheet.genre)
         self.input_difficulty.setCurrentIndex(sheet.difficulty or -1)
+
+        instruments = [x.name for x in self.settings_service.get_instruments()]
+        self.input_instrument.clear()
+        for instrument in instruments:
+            self.input_instrument.addItem(instrument)
+
+        try:
+            self.input_instrument.setCurrentIndex(instruments.index(sheet.instrument))
+        except ValueError:
+            self.input_instrument.setCurrentIndex(-1)
+
         self.current_sheet = sheet
 
     def _save_current_sheet(self):

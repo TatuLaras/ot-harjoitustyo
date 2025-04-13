@@ -45,7 +45,7 @@ def sql_trivial_insert_generate(
     return f"INSERT OR {policy} INTO `{table_name}` ({column_list}) " + f"VALUES {values_list}"
 
 
-def sql_trivial_delete_generate(table_name: str, id_column: str, id_value: int) -> str:
+def sql_trivial_delete_generate(table_name: str, id_column: str, id_value: int | str) -> str:
     """
     Generates a basic DELETE query to delete an entry from table
     `table_name` where column `id_column` is equal to `id_value`.

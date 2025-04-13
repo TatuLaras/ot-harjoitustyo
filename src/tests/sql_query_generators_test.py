@@ -5,7 +5,9 @@ from sql_query_generators import (
     sql_trivial_id_select_generate,
     sql_trivial_insert_generate,
     sql_trivial_select_generate,
+    sql_trivial_select_with_params_generate,
 )
+from sql_search_params import Constraint, SearchParameter
 
 
 class TestQueryGenerators(unittest.TestCase):
@@ -23,6 +25,20 @@ class TestQueryGenerators(unittest.TestCase):
         self.assertEqual(
             query,
             "SELECT `test_col_a`, `test_col_b`, `test_col_c` FROM `testing_table`",
+        )
+
+    def test_trivial_select_with_params_is_correct(self):
+        query = sql_trivial_select_with_params_generate(
+            "testing_table",
+            ["test_col_a", "test_col_b", "test_col_c"],
+            [
+                SearchParameter("test_col_a", 4, Constraint.GREATER_EQUAL),
+                SearchParameter("test_col_b", "val", Constraint.CONTAINS),
+            ],
+        )
+        self.assertEqual(
+            query,
+            "SELECT `test_col_a`, `test_col_b`, `test_col_c` FROM `testing_table` WHERE `test_col_a` >= '4' AND `test_col_b` LIKE '%val%'",
         )
 
     def test_trivial_id_select_is_correct(self):

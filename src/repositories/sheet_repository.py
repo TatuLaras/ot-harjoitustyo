@@ -6,8 +6,10 @@ from sql_search_params import SearchParameter
 
 
 class SheetRepository(BaseRepository):
-    def get(self, sheet_id: int) -> Sheet:
+    def get(self, sheet_id: int) -> Sheet | None:
         row = self.trivial_id_select("sheet", Sheet.columns(), "sheet_id", sheet_id)
+        if row is None:
+            return None
         return Sheet.from_row(row)
 
     def get_all(self) -> List[Sheet]:

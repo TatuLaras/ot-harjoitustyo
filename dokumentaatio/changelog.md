@@ -12,8 +12,16 @@
 - Lisätty `Sheet` (entity) ja `SheetRepository` -luokat, joiden avulla nuotteja voidaan hallinnoida tietokannassa.
 - Lisätty `SheetService` -luokka, johon voi eriyttää sovelluksen nuottien hallinnointiin liittyvää logiikkaa.
 
-## Viikko 3
+## Viikko 4
 - Luotu käyttöliittymä nuottien tietojen tarkasteluun ja muokkaukseen
 - Käyttäjä voi avata nuotin PDF-lukijallaan
 - Lisätty `SearchParameter`-luokka jonka avulla voi luoda suodattimia ja muuntaa niitä SQL-muotoiseksi WHERE-lausekkeeksi
 - Suurimpaan osaan ei-käyttöliittymän logiikasta automaattitestit
+
+## Viikko 5
+- Toteutettu hakuehtojen luominen ja hakujen teko
+- Yleistetty kansioiden hallintakomponentti käytettäväksi minkä tahansa merkkijonolistan kanssa
+- Käyttäjä voi lisätä soittimia asetuksista ja muuttaa nuotin soitinta
+- Suurin osa uudesta logiikasta automaattitestauksen alle
+- Poistettu testi joka testasi sitä että <, > yms. operaattoreita ei sallita käytettäväksi merkkijonojen kanssa, sillä päätin että käyttäjällä on lupa käyttää niitä ehtojen kuten "tulee merkkijonon 'xyx' jälkeen aakkosjärjestyksessä" tekoon.
+

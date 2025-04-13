@@ -47,7 +47,7 @@ class BaseRepository:
         self.conn.execute(query)
         self.conn.commit()
 
-    def trivial_delete(self, table_name: str, id_column: str, id_value: int):
+    def trivial_delete(self, table_name: str, id_column: str, id_value: int | str):
         query = sql_trivial_delete_generate(table_name, id_column, id_value)
         self.conn.execute(query)
         self.conn.commit()

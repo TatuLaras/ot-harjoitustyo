@@ -26,7 +26,7 @@ class SheetService:
     def open_file(self, file_path: str):
         subprocess.Popen(["xdg-open", file_path])
 
-    def get_sheet_by_id(self, sheet_id: int) -> Sheet:
+    def get_sheet_by_id(self, sheet_id: int) -> Sheet | None:
         return self.sheet_repository.get(sheet_id)
 
     def get_all_sheets(self) -> List[Sheet]:
