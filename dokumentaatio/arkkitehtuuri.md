@@ -35,7 +35,7 @@ sequenceDiagram
     deactivate SheetService
     activate SheetRepository
     SheetRepository ->>SheetRepository: trivial_insert("sheet", sheet, DuplicateHandling.UPDATE)
-    SheetRepository ->>SheetRepository: trivial_insert_many("sheet", sheet, DuplicateHandling.UPDATE)
+    SheetRepository ->>SheetRepository: trivial_insert_many("sheet", [sheet], DuplicateHandling.UPDATE)
     SheetRepository ->>sql_query_generators: sql_trivial_insert_generate("sheet", sheet, DuplicateHandling.UPDATE)
     sql_query_generators ->>SheetRepository: query
     SheetRepository ->>sqlite3.Connection: execute(query)
