@@ -82,3 +82,5 @@ $ poetry run invoke coverage
 - [Changelog](dokumentaatio/changelog.md)
 - [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md)
 
+## Other
+- [Viikko 6 release](https://github.com/TatuLaras/ot-harjoitustyo/releases/tag/viikko6)
