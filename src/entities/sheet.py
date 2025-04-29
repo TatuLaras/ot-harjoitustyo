@@ -1,7 +1,7 @@
 from sqlite3 import Row
 from typing import List
 from entities.base_entity import BaseEntity
-from sql_search_params import SearchParameter
+from entities.search_parameter import SearchParameter
 from utils import safe_cast_to_int
 
 

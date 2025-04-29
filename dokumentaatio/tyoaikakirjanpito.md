@@ -9,5 +9,6 @@
 | 6.4.| 6 | Testien kirjoittaminen, nuotin avaus, suodatuksen valmistelu, arkkitehtuurikaavio |
 | 10.4.| 4 | Hakujen teko toimimaan |
 | 13.4.| 3 | Hiontaa, soitinten hallinta |
-| **Yht.** | **25** | |
+| 29.4.| 8 | Vertaispalaute, dokumentaatio, hakuehtokokoelmat |
+| **Yht.** | **33** | |
 

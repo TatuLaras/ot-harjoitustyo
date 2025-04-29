@@ -7,7 +7,7 @@ from sql_query_generators import (
     sql_trivial_select_generate,
     sql_trivial_select_with_params_generate,
 )
-from sql_search_params import Constraint, SearchParameter
+from entities.search_parameter import Relation, SearchParameter
 
 
 class TestQueryGenerators(unittest.TestCase):
@@ -32,8 +32,8 @@ class TestQueryGenerators(unittest.TestCase):
             "testing_table",
             ["test_col_a", "test_col_b", "test_col_c"],
             [
-                SearchParameter("test_col_a", 4, Constraint.GREATER_EQUAL),
-                SearchParameter("test_col_b", "val", Constraint.CONTAINS),
+                SearchParameter("test_col_a", 4, Relation.GREATER_EQUAL),
+                SearchParameter("test_col_b", "val", Relation.CONTAINS),
             ],
         )
         self.assertEqual(

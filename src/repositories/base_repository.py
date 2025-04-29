@@ -19,7 +19,9 @@ class BaseRepository:
     def __init__(self, conn=get_connection()) -> None:
         self.conn = conn
 
-    def trivial_id_select(self, table_name: str, columns: list[str], id_column: str, id_value: int):
+    def trivial_id_select(
+        self, table_name: str, columns: list[str], id_column: str, id_value: int | str
+    ):
         """
         Returns a sqlite Row of `columns` from table `table_name` in which the column `id_column` is
         equal to `id_value`.

@@ -25,3 +25,7 @@
 - Suurin osa uudesta logiikasta automaattitestauksen alle
 - Poistettu testi joka testasi sitä että <, > yms. operaattoreita ei sallita käytettäväksi merkkijonojen kanssa, sillä päätin että käyttäjällä on lupa käyttää niitä ehtojen kuten "tulee merkkijonon 'xyx' jälkeen aakkosjärjestyksessä" tekoon.
 
+## Viikko 6
+- Käyttöohje lisätty READMEhen
+- Arkkitehtuurikuvaus kirjoitettu
+- Lisätty hakujen tallennus

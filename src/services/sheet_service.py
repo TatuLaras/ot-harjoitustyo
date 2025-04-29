@@ -1,10 +1,12 @@
 import subprocess
 from typing import List
+from copy import deepcopy
 from entities.sheet import Sheet
 from repositories.settings_repository import SettingsRepository
 from repositories.sheet_repository import SheetRepository
 from directory_scanning import scan_directory_for_sheets
-from sql_search_params import SearchParameter
+from entities.search_parameter import SearchParameter
+from repositories.search_parameter_repository import SearchParameterRepository
 
 
 class SheetService:
@@ -13,10 +15,14 @@ class SheetService:
     """
 
     def __init__(
-        self, settings_repository=SettingsRepository(), sheet_repository=SheetRepository()
+        self,
+        settings_repository=SettingsRepository(),
+        sheet_repository=SheetRepository(),
+        search_parameter_repository=SearchParameterRepository(),
     ) -> None:
         self.settings_repository = settings_repository
         self.sheet_repository = sheet_repository
+        self.search_parameter_repository = search_parameter_repository
 
     def scan_for_sheets(self):
         """
@@ -76,3 +82,51 @@ class SheetService:
         Wrapper for `SheetRepository.delete`.
         """
         self.sheet_repository.delete(sheet_id)
+
+    def get_collection_names(self) -> List[str]:
+        """
+        Wrapper for `SearchParameterRepository.get_collection_names`.
+        """
+        return self.search_parameter_repository.get_collection_names()
+
+    def create_collection(self, name: str):
+        """
+        Wrapper for `SearchParameterRepository.create_collection`.
+        """
+        self.search_parameter_repository.create_collection(name)
+
+    def get_collection_id_by_name(self, name: str) -> int | None:
+        """
+        Wrapper for `SearchParameterRepository.get_collection_id_by_name`.
+        """
+        return self.search_parameter_repository.get_collection_id_by_name(name)
+
+    def create_many_search_parameters(self, search_parameters: List[SearchParameter]):
+        """
+        Wrapper for `SearchParameterRepository.create_many_search_parameters`.
+        """
+        self.search_parameter_repository.create_many_search_parameters(search_parameters)
+
+    def create_collection_with_params(
+        self, collection_name: str, search_parameters: List[SearchParameter]
+    ):
+        """
+        Creates a new SearchParameter collection with `search_parameters`.
+        """
+        self.create_collection(collection_name)
+        collection_id = self.get_collection_id_by_name(collection_name)
+
+        self.search_parameter_repository.trivial_delete(
+            "search_parameter", "search_parameter_collection_id", collection_id
+        )
+
+        params = deepcopy(search_parameters)
+
+        for param in params:
+            param.search_parameter_collection_id = collection_id
+            param.relation = param.relation.value
+
+        self.create_many_search_parameters(params)
+
+    def get_collection_params(self, collection_id: int) -> List[SearchParameter]:
+        return self.search_parameter_repository.get_collection_params(collection_id)

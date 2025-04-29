@@ -18,3 +18,18 @@ CREATE TABLE IF NOT EXISTS sheet (
     difficulty INTEGER,
     instrument TEXT
 );
+
+CREATE TABLE IF NOT EXISTS search_parameter_collection (
+    search_parameter_collection_id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS search_parameter (
+    search_parameter_id INTEGER PRIMARY KEY,
+    search_parameter_collection_id INTEGER,
+    column TEXT NOT NULL,
+    value TEXT NOT NULL,
+    relation INTEGER NOT NULL,
+    FOREIGN KEY(search_parameter_collection_id)
+        REFERENCES search_parameter_collection(search_parameter_collection_id)
+);

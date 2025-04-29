@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtWidgets import QWidget
 
 from entities.sheet import Sheet
-from sql_search_params import Constraint, SearchParameter
+from entities.search_parameter import Relation, SearchParameter
 
 
 class ParameterLine(QWidget):
@@ -24,17 +24,17 @@ class ParameterLine(QWidget):
             search_param.column = new_text
             on_params_changed()
 
-        def update_constraint(new_text: str):
-            value = constraints.get(new_text)
+        def update_relation(new_text: str):
+            value = relations.get(new_text)
             if value is not None:
-                search_param.constraint = value
+                search_param.relation = value
                 on_params_changed()
 
         def update_value(new_text: str):
             search_param.value = new_text
             on_params_changed()
 
-        constraints = Constraint.__members__
+        relations = Relation.__members__
         columns = Sheet.columns()
 
         layout = QHBoxLayout()
@@ -49,14 +49,14 @@ class ParameterLine(QWidget):
         column_select.currentTextChanged.connect(update_column)
         layout.addWidget(column_select)
 
-        # Constraint select
-        constraint_select = QComboBox()
-        for constraint in constraints:
-            constraint_select.addItem(constraint)
-        constraint_select.setCurrentText(search_param.constraint.name)
+        # Relation select
+        relation_select = QComboBox()
+        for relation in relations:
+            relation_select.addItem(relation)
+        relation_select.setCurrentText(search_param.relation.name)
 
-        constraint_select.currentTextChanged.connect(update_constraint)
-        layout.addWidget(constraint_select)
+        relation_select.currentTextChanged.connect(update_relation)
+        layout.addWidget(relation_select)
 
         # Value
         value_input = QLineEdit()

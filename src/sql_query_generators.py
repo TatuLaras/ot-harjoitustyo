@@ -9,11 +9,14 @@ class DuplicateHandling(Enum):
     UPDATE = 1
 
 
-def sql_sanitize(string: str, allow_empty: bool = False) -> str:
-    if len(string) == 0 and not allow_empty:
+def sql_sanitize(value, allow_empty: bool = False) -> str:
+    if not isinstance(value, str):
+        return value
+
+    if len(value) == 0 and not allow_empty:
         raise ValueError("Trying to use an empty string to generate a SQL query")
 
-    return string.replace("'", "").replace("`", "")
+    return value.replace("'", "").replace("`", "")
 
 
 def sql_trivial_insert_generate(
