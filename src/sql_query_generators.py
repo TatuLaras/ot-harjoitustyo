@@ -91,6 +91,10 @@ def sql_trivial_select_generate(table_name: str, columns: list[str]) -> str:
 def sql_trivial_select_with_params_generate(
     table_name: str, columns: list[str], search_parameters: List[SearchParameter]
 ) -> str:
+    """
+    Generates a basic SELECT query that selects columns `columns` from table
+    `table_name`, with WHERE conditions defined by `search_parameters`.
+    """
     where = generate_where_query(search_parameters)
     main_query = sql_trivial_select_generate(table_name, columns)
     return f"{main_query} WHERE {where}"

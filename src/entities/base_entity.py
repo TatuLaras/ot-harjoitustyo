@@ -2,6 +2,10 @@ from typing import List
 
 
 class BaseEntity:
+    """
+    A common base entity with some common utility methods.
+    """
+
     def __init__(self) -> None:
         self.__to_dict_ignore_fields = []
 

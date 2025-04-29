@@ -6,6 +6,10 @@ from utils import safe_cast_to_int
 
 
 class Sheet(BaseEntity):
+    """
+    Models a single music sheet / piece, corresponding to the database table `sheet`.
+    """
+
     def __init__(self) -> None:
         super().__init__()
         self.sheet_id: int | None = None
@@ -18,6 +22,9 @@ class Sheet(BaseEntity):
 
     @classmethod
     def from_filepath(cls, file_path: str):
+        """
+        Constructs an empty Sheet with the file_path property set to `file_path`.
+        """
         sheet = Sheet()
         sheet.file_path = file_path
         sheet.title = ""
@@ -25,6 +32,9 @@ class Sheet(BaseEntity):
 
     @classmethod
     def from_row(cls, row: Row):
+        """
+        A constructor to make a Sheet from a sqlite `row`.
+        """
         sheet = Sheet()
         sheet.sheet_id = row["sheet_id"]
         sheet.instrument = row["instrument"]
@@ -40,6 +50,9 @@ class Sheet(BaseEntity):
         cls,
         search_parameters: List[SearchParameter],
     ) -> List[SearchParameter]:
+        """
+        Filters out empty strings and ensures correct parameter value types for `search_parameters`.
+        """
         valid = []
         for param in search_parameters:
             if isinstance(param.value, str) and len(param.value) == 0:
