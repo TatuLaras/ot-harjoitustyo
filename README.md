@@ -27,6 +27,7 @@ Sheet music directories can be deleted by highlighting the directory by clicking
 
 Once the sheet music directory / directories have been set, a scan can be performed by clicking the Refresh -button on the top toolbar.
 A list of music sheets will appear in the central list view widget, each corresponding to a PDF-file in the sheet music directories.
+To open a music sheet in your PDF viewer (default on `xdg-open`), double click an item in the central list widget.
 
 ### Edit properties
 To add metadata to a sheet music, click on the sheet music item in the sheet music list view in the center of the screen to open it for editing in the right-hand-side Sheet properties panel.
