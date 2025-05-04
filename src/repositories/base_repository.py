@@ -69,6 +69,9 @@ class BaseRepository:
         dictionaries that share the same keys, corresponding to the column
         names of table `table_name`.
         """
+        if len(column_values) == 0:
+            return
+
         query = sql_trivial_insert_generate(table_name, column_values, duplicate_handling)
         self.conn.execute(query)
         self.conn.commit()
